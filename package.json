@@ -1,0 +1,47 @@
+{
+    "name": "@raika/rdate",
+    "version": "0.0.1",
+    "description": "my jalali date",
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:Raika/RDate.git"
+    },
+    "author": "Raika <Raika.Maftoon@gmail.com>",
+    "keywords": [
+        "jalali"
+    ],
+    "license": "MIT",
+    "private": false,
+    "files": [
+        "dist/**/*"
+    ],
+    "dependencies": {
+        "date-fns": "^1.30.1",
+        "jalaali-js": "^1.1.0"
+    },
+    "devDependencies": {
+        "@types/chai": "^4.1.7",
+        "@types/jalaali-js": "^1.1.0",
+        "@types/mocha": "^5.2.5",
+        "chai": "^4.2.0",
+        "mocha": "^5.2.0",
+        "prettier": "^1.16.3",
+        "ts-node": "^8.0.2",
+        "tslint": "^5.12.1",
+        "tslint-config-prettier": "^1.17.0",
+        "typescript": "^3.3.1"
+    },
+    "scripts": {
+        "build": "tsc",
+        "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
+        "lint": "tslint -p tsconfig.json",
+        "test": "mocha -r ts-node/register test/**/*.test.ts",
+        "prepare": "yarn build",
+        "prepublishOnly": "yarn test && yarn lint",
+        "preversion": "yarn lint",
+        "version": "yarn format && git add -A src",
+        "postversion": "git push && git push --tags"
+    }
+}
