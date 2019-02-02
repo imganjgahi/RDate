@@ -1,8 +1,6 @@
 language: node_js
 node_js:
   - 'node'
-end:
-  CODECOV_TOKEN="1dad5334-5550-4641-859b-9caca094e62f"
 deploy:
   - provider: script
     skip_cleanup: true
