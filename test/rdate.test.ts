@@ -49,3 +49,10 @@ describe("format", () => {
         expect(d.formatJalali("YYYY/MM/DD")).to.be.equal("1397/01/01");
     });
 });
+
+describe("parse", () => {
+    it("pt", () => {
+        const d = RDate.parse("2019-15-01", "YYYY-DD-MM");
+        expect(d).to.be.eql(new RDate("2019-01-15"));
+    });
+});
