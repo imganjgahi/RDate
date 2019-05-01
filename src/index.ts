@@ -15,16 +15,15 @@ class RDate {
         }
     }
 
-    public dayOfWeek() : number {
+    public dayOfWeek(): number {
         return datefns.getDay(this.date);
     }
 
-    public dayOfWeekJalali() : number {
-        let day= datefns.getDay(this.date);
-        if( day > 0 && day < 5 )
-        {
+    public dayOfWeekJalali(): number {
+        let day = datefns.getDay(this.date);
+        if (day > 0 && day < 5) {
             day += 2;
-        } else if(day == 0) {
+        } else if (day == 0) {
             day = 1;
         } else {
             day = 0;
@@ -85,6 +84,22 @@ class RDate {
 
     public format(frmt: string): string {
         return datefns.format(this.date, frmt);
+    }
+
+    public isLeapYear(date: Date | number): boolean {
+        if (typeof date === "number") {
+            return datefns.isLeapYear(new Date(date, 2, 2));
+
+        }
+        return datefns.isLeapYear(date);
+    }
+
+    public isLeapYearJalali(date: Date | number): boolean {
+        if(typeof date === "number"){
+            return jalaali.isLeapJalaaliYear(date)
+        }
+       const jd= jalaali.toJalaali(date)
+        return jalaali.isLeapJalaaliYear(jd.jy)
     }
 
     public formatJalali(frmt: string): string {
