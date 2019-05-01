@@ -15,6 +15,23 @@ class RDate {
         }
     }
 
+    public dayOfWeek() : number {
+        return datefns.getDay(this.date);
+    }
+
+    public dayOfWeekJalali() : number {
+        let day= datefns.getDay(this.date);
+        if( day > 0 && day < 5 )
+        {
+            day += 2;
+        } else if(day == 0) {
+            day = 1;
+        } else {
+            day = 0;
+        }
+        return day;
+    }
+
     public addDays(days: number): RDate {
         return new RDate(datefns.addDays(this.date, days));
     }

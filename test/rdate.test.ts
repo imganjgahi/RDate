@@ -49,3 +49,14 @@ describe("format", () => {
         expect(d.formatJalali("YYYY/MM/DD")).to.be.equal("1397/01/01");
     });
 });
+
+describe("days Of Week", ()=> {
+    it("return day of week", () => {
+        const d = new RDate("2019-05-01").dayOfWeek();
+        expect(d).to.be.equal(3);
+    });
+    it("return day of jalali week", () => {
+        const d = new RDate("2019-05-01").dayOfWeekJalali();
+        expect(d).to.be.equal(5);
+    });
+})
