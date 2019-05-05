@@ -98,3 +98,33 @@ describe (" leap year ", () => {
         expect(d).to.be.equal(false)
     })
 })
+describe("parse date", () => {
+    it("should parse jalaali date", () => {
+        const d = new RDate().parseJalaali("1389-10-12");
+        expect(d.formatJalali("YYYY/MM/DD")).to.be.equal("1389/10/12")
+    })
+    it("should parse geo date", () => {
+        const d = new RDate().parse("2019-01-12");
+        expect(d.format("YYYY/MM/DD")).to.be.equal("2019/01/12")
+    })
+})
+
+describe("parse date with format", () => {
+    it("should pars jalaali without time", () => {
+        const d = new RDate().parse("10-05-02", "YY/DD/MM");
+        expect(d.format("YYYY/MM/DD")).to.be.equal("2010/02/05")
+    })
+    it("should pars jalaali to geo with time", () => {
+        const d = new RDate().parse("2019/05/02 12:50", "YYYY/MM/DD HH:mm");
+        expect(d.format("YYYY/MM/DD HH:mm")).to.be.equal("2019/05/02 12:50")
+    })
+
+    it("should pars geo to jalaali with time", () => {
+        const d = new RDate().parseJalaali("89-02-12 12:05", "YY-MM-DD HH:mm");
+        expect(d.formatJalali("YYYY/MM/DD hh:mm")).to.be.equal("1389/02/12 12:05")
+    })
+    it("should pars geo to jalaali without time", () => {
+        const d = new RDate().parseJalaali("98-02-12", "YY-MM-DD");
+        expect(d.formatJalali("YYYY/MM/DD")).to.be.equal("1398/02/12")
+    })
+})

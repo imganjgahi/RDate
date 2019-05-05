@@ -82,6 +82,78 @@ class RDate {
         return datefns.isBefore(this.date, date);
     }
 
+    private setYearStr(fullYear: number, year: string) {
+        return fullYear.toString().substr(0, 2) + year;
+    }
+
+    private parseFormat(date: any, format: string, type: string): number[] {
+        const yearArray = ["YYYY", "YYY", "YY"];
+        const monthArray = ["MM", "M"];
+        const dayArray = ["DD", "D"];
+        const hourArray = ["HH", "hh", "h"];
+        const minuteArray = ["mm", "m"];
+        const secondArray = ["ss", "s"];
+
+        let y: string = "";
+        let m: string = "";
+        let d: string = "";
+        let h: string = "";
+        let min: string = "";
+        let sec: string = "";
+
+        yearArray.forEach((year) => {
+            const yIndex = format.indexOf(year);
+            y === "" ? (y = yIndex > -1 ? date.substring(yIndex, yIndex + year.length) : "") : y;
+        });
+        monthArray.forEach((month) => {
+            const mIndex = format.indexOf(month);
+            m === "" ? (m = mIndex > -1 ? date.substring(mIndex, mIndex + month.length) : "") : m;
+        });
+        dayArray.forEach((day) => {
+            const dIndex = format.indexOf(day);
+            d === "" ? (d = dIndex > -1 ? date.substring(dIndex, dIndex+ day.length) : "") : d;
+        });
+        hourArray.forEach((hour) => {
+            const hIndex = format.indexOf(hour);
+            h === "" ? (h = hIndex > -1 ? date.substring(hIndex, hIndex+ hour.length) : "") : h;
+        });
+        minuteArray.forEach((minute) => {
+            const minuteIndex = format.indexOf(minute);
+            min === "" ? (min = minuteIndex > -1 ? date.substring(minuteIndex, minuteIndex+ minute.length) : "") : min;
+        });
+        secondArray.forEach((second) => {
+            const secIndex = format.indexOf(second);
+            sec === "" ? (sec = secIndex > -1 ? date.substring(secIndex, secIndex+ second.length) : "") : sec;
+        });
+
+        if (y === "" || m === "" || d === "") {
+            throw "invalid date";
+        }
+        if (y.length < 4) {
+            if (type === "jal") {
+                const d = new Date(Date.now());
+                const j = jalaali.toJalaali(+d.getFullYear(), +d.getMonth(), +d.getDay());
+                y = this.setYearStr(j.jy, y);
+            }
+            if (type === "geo") {
+                const d = new Date(Date.now());
+                y = this.setYearStr(d.getFullYear(), y);
+            }
+        }
+        return [+y, +m, +d, +h, +min, +sec];
+    }
+
+    public parse(date: string, format: string = "YYYY-MM-DD hh:mm:ss"): RDate {
+        const [y, m, d, h, min, sec] = this.parseFormat(date, format, "geo");
+        return new RDate(new Date(y, (m-1), d, h, min, sec));
+    }
+
+    public parseJalaali(date: string, format: string = "YYYY-MM-DD hh:mm:ss"): RDate {
+        const [y, m, d, h, min, sec] = this.parseFormat(date, format, "jal");
+        const x = jalaali.toGregorian(y, m, d);
+        const outPut = new RDate(new Date(x.gy, (x.gm-1), x.gd, h, min, sec));
+        return outPut;
+    }
     public format(frmt: string): string {
         return datefns.format(this.date, frmt);
     }
